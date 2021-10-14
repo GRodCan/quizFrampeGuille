@@ -1,0 +1,70 @@
+@font-face {
+    font-family: 'loveloB';
+    src: url('../assets/font/Lovelo-Black.ttf');
+}
+body{
+    background-image: url(https://wallpapercave.com/wp/wp6736830.jpg);
+    background-repeat: no-repeat;
+    background-size:cover;
+    margin: -50px}
+div#root{
+    background-color: rgb(35, 206, 107);
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 100px;
+    border-style: solid;
+    border-radius: 10px;
+    border-color: rgb(128, 93, 147);
+    padding: 25px;
+    box-shadow: 0px 0px 15px 2px rgb(24, 143, 167);
+    
+
+}
+img#rickStart{
+    width: 300px;
+    height: auto;
+    fill-opacity: 1;
+    margin-bottom: -2px;
+       
+}
+
+
+
+div#title{
+    font-size: 50px;
+    padding: 0px 15px;
+    margin-bottom: 5px;
+    border-style: solid;
+    border-radius: 10px;
+    color: rgb(22, 152, 115);
+    background-color: rgb(204, 251, 254);
+    border-color: rgb(128, 93, 147);
+    box-shadow: 0px 0px 15px 2px rgb(24, 143, 167);
+    font-family: loveloB, Geneva, Tahoma, sans-serif;
+    text-align: center;
+    
+    
+    
+}
+div#buttonsStart{
+    display: flex;
+    justify-content: space-evenly;
+
+}
+
+button#buttonPlay, button#buttonClas{
+    width: 400px;
+    height: 100px;
+    border-radius: 5px;
+    background-color: rgb(22, 152, 115);
+    font-family: loveloB, Geneva, Tahoma, sans-serif;
+    font-size: 35px;
+    opacity: 0.75;
+    margin: 15px 0px;
+}
+button#buttonPlay:hover, button#buttonClas:hover{
+    opacity: 1;
+}
+
+
