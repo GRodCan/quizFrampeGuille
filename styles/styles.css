@@ -6,7 +6,8 @@ body{
     background-image: url(https://wallpapercave.com/wp/wp6736830.jpg);
     background-repeat: no-repeat;
     background-size:cover;
-    margin: -50px}
+    margin: -50px
+}
 div#root{
     background-color: rgb(35, 206, 107);
     display:flex;
@@ -18,19 +19,31 @@ div#root{
     border-color: rgb(128, 93, 147);
     padding: 25px;
     box-shadow: 0px 0px 15px 2px rgb(24, 143, 167);
-    
-
 }
+
 img#rickStart{
     width: 300px;
     height: auto;
     fill-opacity: 1;
     margin-bottom: -2px;
-       
+    animation-duration: 5s;
+    animation-name: slideOverTitle;
+    animation-direction:alternate;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
 }
 
+@keyframes slideOverTitle {
+  from {
+    margin-left: 400px;
+    
+  }
 
-
+   to {
+    margin-right: 400px;
+    
+  }
+}
 div#title{
     font-size: 50px;
     padding: 0px 15px;
@@ -42,18 +55,15 @@ div#title{
     border-color: rgb(128, 93, 147);
     box-shadow: 0px 0px 15px 2px rgb(24, 143, 167);
     font-family: loveloB, Geneva, Tahoma, sans-serif;
-    text-align: center;
-    
-    
-    
+    text-align: center; 
 }
+
 div#buttonsStart{
     display: flex;
     justify-content: space-evenly;
-
 }
 
-button#buttonPlay, button#buttonClas{
+#buttonsStart button{
     width: 400px;
     height: 100px;
     border-radius: 5px;
@@ -63,8 +73,59 @@ button#buttonPlay, button#buttonClas{
     opacity: 0.75;
     margin: 15px 0px;
 }
-button#buttonPlay:hover, button#buttonClas:hover{
+
+div#play{
+    display: flex;
+    justify-content: space-evenly;
+    font-size: 20px;
+    padding: 15px 0px; 
+    border-style: solid;
+    border-radius: 10px;
+    border-width: 2px;
+    background-color:rgb(22, 152, 115);;
+    border-color: rgb(128, 93, 147);
+    box-shadow: 0px 0px 15px 1px rgb(24, 143, 167);
+    font-family: loveloB, Geneva, Tahoma, sans-serif;
+    align-items: center;
+}
+div#play input{
+    margin: 0px -70px;
+    font-size: 20px;
+    font-family: loveloB, Geneva, Tahoma, sans-serif;
+    background-color: transparent;
+    border-style: solid;
+    border-color: black;
+    border-width: 0.5px;
+    border-radius: 3px;    
+
+}
+#playerName::placeholder{
+    color: black;
+    text-align: center;
+}
+div#buttonsMode{
+    display: flex;
+    justify-content: space-between;
+}
+
+div#buttonsMode button{
+    width: 200px;
+    height: 50px;
+    border-radius: 5px;
+    margin: 0px 7px;
+    opacity: 0.75;
+    background-color: rgb(24, 143, 167);
+    font-family: loveloB, Geneva, Tahoma, sans-serif;
+    font-size: 20px;
+}
+
+
+
+
+#buttonsStart button:hover, #buttonsMode button:hover{
     opacity: 1;
 }
+
+
 
 
