@@ -2,6 +2,11 @@
     font-family: 'loveloB';
     src: url('../assets/font/Lovelo-Black.ttf');
 }
+
+@font-face {
+    font-family: 'timer';
+    src: url('../assets/font/16Segments-Basic.otf');
+}
 body{
     background-image: url(https://wallpapercave.com/wp/wp6736830.jpg);
     background-repeat: no-repeat;
@@ -130,6 +135,21 @@ div#pregunta{
     flex-direction: column;
     align-items: center;
 }
+
+#divTimer{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 30px;
+    margin-top: -10px;
+    margin-bottom: 15px;
+    font-size: 50px;
+    color: hsla(0, 0%, 0%, 0.9);
+    font-weight: bolder;
+    font-family: timer, Geneva, Tahoma, sans-serif;
+
+}
 div#cuadroPregunta{
     display: flex;
     align-items: center;
@@ -167,7 +187,7 @@ div.optionsPair{
 div#options label{
     display: flex;
     flex-direction: column;
-    width: 550px;
+    width: 500px;
     height: 175px;
     margin: 15px 0px;
     border-radius: 5px;

@@ -101,3 +101,13 @@ const playDiv=()=>{
     
   }
   
+  let segundos = 30
+  function cuentaAtras(){ 
+      let tiempo= window.setInterval(function(){
+      if(segundos==0){clearInterval(tiempo)}     
+      document.getElementById("timer").innerHTML =segundos
+      segundos--}, 
+      1000)}
+  document.getElementById("pregunta").addEventListener("DOMContentLoaded", cuentaAtras(), false)
+  
+
