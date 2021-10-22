@@ -101,13 +101,12 @@ const playDiv=()=>{
     
   }
   
-  let segundos = 30
-  function cuentaAtras(){ 
+  let segundos = 5
+  function cuentaAtras(){
       let tiempo= window.setInterval(function(){
-      if(segundos==0){clearInterval(tiempo)}     
-      document.getElementById("timer").innerHTML =segundos
-      segundos--}, 
+      if(segundos<=0){clearInterval(tiempo);window.__quizQuestions__.timeoutCurrentQuestion();}
+      document.getElementById("timer").innerHTML = segundos.toString();
+      segundos--},
       1000)}
-  document.getElementById("pregunta").addEventListener("DOMContentLoaded", cuentaAtras(), false)
   
 
