@@ -256,7 +256,10 @@ div#parrafBM__container{
     margin-bottom: 50px;
     font-family: loveloB, Geneva, Tahoma, sans-serif;
     font-size: 50px;
-    text-align: justify;
+    text-align: center;
+}
+p#parrafoBM{
+    font-size: 25px;
 }
 div#imgBM__container{
     height: fit-content;
@@ -277,8 +280,17 @@ img.imgBM{
     border-color: rgb(128, 93, 147);
 }
 
-p#parrafoBM{
-    font-size: 25px;
+button#siguientePregunta{
+    width: 225px;
+    height: 65px;
+    border-radius: 5px;
+    opacity: 0.75;
+    background-color: rgb(24, 143, 167);
+    font-family: loveloB, Geneva, Tahoma, sans-serif;
+    font-size: 20px;
+}
+button#siguientePregunta:hover{
+    opacity: 1;
 }
 
 
