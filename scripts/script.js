@@ -63,34 +63,40 @@ const fiftyQuest=()=>{
   
 const divB=`
 <div id="respBM__container">
-    <div id="parrafBM__container"><h2>Respuesta errónea</h2><p id="parrafoBM">Bueno, supongo que un despiste lo puede tener cualquiera...</p>
+    <div id="parrafBM__container">
+    <h2>Respuesta errónea</h2>
+    <p id="parrafoBM">Bueno, supongo que un despiste lo puede tener cualquiera...</p>
+    <button id="siguientePregunta">Siguiente pregunta</button>
     </div>
     <div id="imgBM__container">
     <img src="./assets/images/mal.png" alt="Rick Disgustado" class="imgBM">
     </div>
     </div>
-<button id="siguientePregunta">Siguiente pregunta</button>
 `
 const divM=`
 <div id="respBM__container">
-    <div id="parrafBM__container"><h2>Respuesta errónea</h2><p id="parrafoBM">Bueno, supongo que un despiste lo puede tener cualquiera...</p>
+    <div id="parrafBM__container">
+    <h2>Respuesta errónea</h2>
+    <p id="parrafoBM">Bueno, supongo que un despiste lo puede tener cualquiera...</p>
+    <button id="siguientePregunta">Siguiente pregunta</button>
     </div>
 <   button id="siguientePregunta">Siguiente pregunta</button>
     <div id="imgBM__container">
     <img src="./assets/images/mal.png" alt="Rick Disgustado" class="imgBM">
     </div>
     </div>
-<button id="siguientePregunta">Siguiente pregunta</button>
 `
 const divT=`
 <div id="respBM__container">
-    <div id="parrafBM__container"><h2>¡Se acabó el tiempo!</h2><p id="parrafoBM">Bueno, supongo que un despiste lo puede tener cualquiera...</p>
+    <div id="parrafBM__container">
+    <h2>¡Se acabó el tiempo!</h2>
+    <p id="parrafoBM">Bueno, supongo que un despiste lo puede tener cualquiera...</p>
+    <button id="siguientePregunta">Siguiente pregunta</button>
     </div>
     <div id="imgBM__container">
     <img src="./assets/images/mal.png" alt="Rick Disgustado" class="imgBM">
     </div>
     </div>
-<button id="siguientePregunta">Siguiente pregunta</button>
 `
 
   
