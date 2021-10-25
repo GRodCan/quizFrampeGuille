@@ -2,11 +2,11 @@
     font-family: 'loveloB';
     src: url('../assets/font/Lovelo-Black.ttf');
 }
-
 @font-face {
     font-family: 'timer';
     src: url('../assets/font/16Segments-Basic.otf');
 }
+
 body{
     background-image: url(https://wallpapercave.com/wp/wp6736830.jpg);
     background-repeat: no-repeat;
@@ -240,4 +240,58 @@ div#pregunta button{
 div#pregunta button:hover{
     opacity: 1;
 }
+
+div#respBM__container{
+    
+    display: flex;
+    
+    align-items: center;
+}
+
+div#parrafBM__container{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+    font-family: loveloB, Geneva, Tahoma, sans-serif;
+    font-size: 50px;
+    text-align: center;
+}
+p#parrafoBM{
+    font-size: 25px;
+}
+button#siguientePregunta{
+    width: 225px;
+    height: 65px;
+    border-radius: 5px;
+    margin: 100px 0px 0px 0px;
+    opacity: 0.75;
+    background-color: rgb(24, 143, 167);
+    font-family: loveloB, Geneva, Tahoma, sans-serif;
+    font-size: 20px;
+}
+button#siguientePregunta:hover{
+    opacity: 1;
+}
+div#imgBM__container{
+    height: fit-content;
+    padding: 0px;
+    border-radius: 10px;
+    border-style: solid;
+    border-color: rgb(128, 93, 147);
+    box-shadow: 0px 0px 15px 1px rgb(24, 143, 167);
+    background-color: rgb(24, 143, 167);
+    margin: 10px 50px;
+
+}
+img.imgBM{
+    height: 500px;
+    margin: 0px 0px -6px;
+    border-radius: 10px;
+    border-bottom: solid;
+    border-color: rgb(128, 93, 147);
+}
+
+
 
