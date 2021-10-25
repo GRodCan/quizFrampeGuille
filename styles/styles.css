@@ -199,6 +199,7 @@ div#options label{
     font-size: 23px;
     padding-top:auto;
     justify-content: center;
+    cursor: pointer;
 }
 
 #optionALabel{
@@ -292,6 +293,6 @@ img.imgBM{
     border-bottom: solid;
     border-color: rgb(128, 93, 147);
 }
-
-
-
+#errorDiv{
+    color: red;
+}

@@ -21,95 +21,82 @@ const divPregunta=
         </div>
         <div id="cuadroPregunta">
             <img id="questionRick" src="./assets/images/pregun.png" alt="Rick Sánchez preguntando">
-            <p id="textoPregunta">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor illo quo iusto corporis rem totam officiis laboriosam aut. Est nihil harum molestias fugit facere provident nesciunt at veniam laudantium asluijuijuijuijuijuijhdslidhasihd-asñihd-añsh-dhasidliha.ñsdlhisaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa inventore!</p>
+            <p id="textoPregunta"></p>
         </div>
         <div id="options">
             <div class="optionsPair">
-                <label for="optionA" id="optionALabel">Lorem
-                    <input type="radio" name="option" id="optionA">
-                </label>
-                <label for="optionB" id="optionBLabel">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam voluptas
-                <input type="radio" name="option" id="optionB">
-                </label>                
+                <label id="optionALabel"></label>
+                <label id="optionBLabel"></label>                
             </div>
             <div class="optionsPair">
-                <label for="optionC" id="optionCLabel">Lorem ipsum dolor sit amet consectetur ad
-                    <input type="radio" name="option" id="optionC">
-                </label>                
-                <label for="optionD" id="optionDLabel">Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident tenetur, veritatis consectetur.
-                    <input type="radio" name="option" id="optionD">
-                </label>
+                <label id="optionCLabel"></label>                
+                <label id="optionDLabel"></label>
             </div>               
         </div>
-        <button>Contestar</button>
+        <button id="btnAnswerQuestion">Contestar</button>
     </div>`
 
 const tenQuest=()=>{
-    document.getElementById("root").innerHTML=null
-    return document.getElementById("root").innerHTML += divPregunta,
-    document.getElementById("pregunta").addEventListener("DOMContentLoaded", cuentaAtras(5), false)    
+    document.getElementById("root").innerHTML = divPregunta;
+    initializeQuiz();
+    return null;
 }
 const twentyfiveQuest=()=>{
-    document.getElementById("root").innerHTML=null
-    return document.getElementById("root").innerHTML += divPregunta,
-    document.getElementById("pregunta").addEventListener("DOMContentLoaded", cuentaAtras(30), false)
-    
+    document.getElementById("root").innerHTML = divPregunta;
+    initializeQuiz(25);
+    return null;
 }
 const fiftyQuest=()=>{
-    document.getElementById("root").innerHTML=null
-    return document.getElementById("root").innerHTML +=divPregunta,
-    document.getElementById("pregunta").addEventListener("DOMContentLoaded", cuentaAtras(30), false)
+    document.getElementById("root").innerHTML = divPregunta;
+    initializeQuiz(50);
+    return null;
 }
   
 const divB=`
 <div id="respBM__container">
     <div id="parrafBM__container">
-    <h2>Respuesta errónea</h2>
-    <p id="parrafoBM">Bueno, supongo que un despiste lo puede tener cualquiera...</p>
-    <button id="siguientePregunta">Siguiente pregunta</button>
+    <h2>Respuesta correcta</h2>
+    <p id="parrafoBM">¿Que te crees un empollón de mierda?</p>
+    <button id="siguientePregunta" onclick="populateDivsWithQuestion(window.__quizQuestions__.cursor); cuentaAtras();">Siguiente pregunta</button>
     </div>
     <div id="imgBM__container">
-    <img src="./assets/images/mal.png" alt="Rick Disgustado" class="imgBM">
+    <img src="./assets/images/bien.png" alt="Rick contento" class="imgBM">
     </div>
-    </div>
-`
+    </div>`;
+
 const divM=`
 <div id="respBM__container">
     <div id="parrafBM__container">
     <h2>Respuesta errónea</h2>
-    <p id="parrafoBM">Bueno, supongo que un despiste lo puede tener cualquiera...</p>
-    <button id="siguientePregunta">Siguiente pregunta</button>
+    <p id="parrafoBM">Bueno, supongo que un despiste lo puede tener cualquiera... imbécil.</p>
+    <button id="siguientePregunta" onclick="populateDivsWithQuestion(window.__quizQuestions__.cursor); cuentaAtras();">Siguiente pregunta</button>
     </div>
 <   button id="siguientePregunta">Siguiente pregunta</button>
     <div id="imgBM__container">
     <img src="./assets/images/mal.png" alt="Rick Disgustado" class="imgBM">
     </div>
-    </div>
-`
+    </div>`;
+
 const divT=`
 <div id="respBM__container">
     <div id="parrafBM__container">
     <h2>¡Se acabó el tiempo!</h2>
-    <p id="parrafoBM">Bueno, supongo que un despiste lo puede tener cualquiera...</p>
-    <button id="siguientePregunta">Siguiente pregunta</button>
+    <p id="parrafoBM">Se te acabó el tiempo, parguela!</p>
+    <button id="siguientePregunta" onclick="populateDivsWithQuestion(window.__quizQuestions__.cursor); cuentaAtras();">Siguiente pregunta</button>
     </div>
     <div id="imgBM__container">
     <img src="./assets/images/mal.png" alt="Rick Disgustado" class="imgBM">
     </div>
-    </div>
-`
+    </div>`;
 
-  
-function cuentaAtras(segundos){ 
-      let tiempo= window.setInterval(function(){
-            if(segundos==0){
-                clearInterval(tiempo)
-                document.getElementById("root").innerHTML=divT
-            }     
-            document.getElementById("timer").innerHTML=segundos
-            segundos--}, 
-            1000)}
+let segundos = 5;
 
-
-  
-
+function cuentaAtras() {
+    let tiempo = window.setInterval(function () {
+            try {
+                if (segundos === 0) { window.__quizQuestions__.timeoutCurrentQuestion(); document.getElementById("root").innerHTML = divT; clearInterval(tiempo); }
+                document.getElementById("timer").innerHTML = segundos.toString();
+                segundos--;
+            } catch (eException) {}
+        },1000);
+}
