@@ -60,45 +60,6 @@
 
     }
 
-    //Añadimos un div a un parent
-    function addDivToParent(sParent, sDivId) {
-
-        //Controlamos los errores
-        try {
-
-            //Creamos el div
-            let iDiv = document.createElement('div');
-
-            //Le asignamos el id
-            iDiv.id = sDivId;
-
-            //Se lo añadimos al padre
-            document.getElementById(sParent).appendChild(iDiv);
-
-            //Terminamos la función devolviendo true
-            return true;
-
-        //En caso de error terminamos la función devolviendo false
-        } catch (eException) { return false; }
-
-    }
-
-    //Decodificamos las entidades html de un string si existen
-    function htmlEntitiesDecode(sString) {
-
-        //Reemplazamos las comillas si existen
-        sString = sString.replace(/&quot;/g, '\"');
-
-        //Reemplazamos con la expresión regular
-        return sString.replace(/&#(\d+);/g, function(match, dec) {
-
-            //Devolvemos el string decodificado
-            return String.fromCharCode(dec);
-
-        });
-
-    }
-
     //Rellenamos los divs con la preguntas
     function populateDivsWithQuestion(question) {
 
@@ -190,7 +151,10 @@
 
         }
 
-        //Obtenemos todos los label del div "options"
+        //Si no existe el div padre terminamos la función
+        if(document.getElementById(parentDivId) === null) { return true; }
+
+        //Obtenemos todos los label del div padre
         document.getElementById(parentDivId).querySelectorAll("label").forEach(function(selectorElement) {
 
             //Si el label no coincide con el actual entonces continuamos
@@ -247,18 +211,25 @@
         //Respondemos a la pregunta actual
         let bAnswered = window.__quizQuestions__.answerCurrentQuestion(shuffleAnswerIndex);
 
-        //TODO: NO SE AÑADEN LAS PREGUNTAS, HAY QUE HACERLO EN EL BOTON
-        //Rellenamos el div con la siguiente pregunta
-        let bPopulated = populateDivsWithQuestion(window.__quizQuestions__.getNextQuestion());
+        //Si hemos podido contestar la pregunta actual entonces restablecemos el contador
+        if(bAnswered !== null) {
 
-        //Si hemos podido rellenar los divs entonces restablecemos el contador y si no lo
-        //establecemos a cero
-        if(bAnswered !== null && bPopulated) {
+            //Si la pregunta es correcta mostramos un div y si no mostramos otro
+            if(bAnswered) {
+
+                document.getElementById("root").innerHTML = divB;
+
+            //Si es incorrecta mostramos otro
+            } else {
+
+                document.getElementById("root").innerHTML = divM;
+
+            }
 
             //Restablecemos el contador
             segundos = 30;
 
-        //Lo establecemos a cero y eliminamos los eventos de los botones
+        //Si no hemos podido contestar entonces lo establecemos a cero y eliminamos los eventos de los botones
         } else {
 
             //Establecemos los segundos a cero
@@ -280,8 +251,23 @@
 
     }
 
+    //Asignamos los eventos a los botones, esto lo tenemos que hacer cada vez
+    //que respondemos bien o mal ya que los botones se eliminan del dom y se vuelven a crear
+    function addEventListenerToQuizButtons() {
+
+        //Asignamos los eventos a los label para seleccionar la respuesta
+        addEventListenerToElement("optionALabel", "click", function() { clickOnAnswerLabel(this, 0); });
+        addEventListenerToElement("optionBLabel", "click", function() { clickOnAnswerLabel(this, 1); });
+        addEventListenerToElement("optionCLabel", "click", function() { clickOnAnswerLabel(this, 2); });
+        addEventListenerToElement("optionDLabel", "click", function() { clickOnAnswerLabel(this, 3); });
+
+        //Asignamos el evento en el botón de contestar para validar la respuesta
+        addEventListenerToElement("btnAnswerQuestion", "click", function() { answerQuestion(); })
+
+    }
+
     //Creamos una función para obtener las preguntas de manera dinámica e inicializar el quiz
-    function initializeQuiz(iAmount = 10) {
+    function initializeQuiz(playerName = "Player 1", iAmount = 10) {
 
         //Obtenemos las preguntas
         getQuestions(iAmount)
@@ -310,6 +296,9 @@
 
                 });
 
+                //Establecemos el nombre del jugador
+                apiData.playerName = playerName;
+
                 //Establecemos una propiedad del objeto para controlar el cursor de las preguntas
                 apiData.cursor = 0;
 
@@ -328,7 +317,7 @@
                         //Si existe la pregunta la devolvemos
                         if(typeof apiData[iQuestionIndex] !== "undefined") { return apiData[iQuestionIndex]; } else { return null; }
 
-                        //En caso de error devolvemos null
+                    //En caso de error devolvemos null
                     } catch (eException) { return null; }
 
                 }
@@ -345,7 +334,7 @@
                         //Obtenemos la siguiente pregunta
                         return this.getQuestion(apiData.cursor);
 
-                        //En caso de error devolvemos null
+                    //En caso de error devolvemos null
                     } catch (eException) { return null; }
 
                 }
@@ -372,7 +361,7 @@
                             //Devolvemos true
                             return true;
 
-                            //Si la respuesta es incorrecta incrementamos el contador de las respuestas incorrectas y devolvemos false
+                        //Si la respuesta es incorrecta incrementamos el contador de las respuestas incorrectas y devolvemos false
                         } else {
 
                             //Incrementamos el contador de las respuestas incorrectas
@@ -383,7 +372,7 @@
 
                         }
 
-                        //En caso de error devolvemos null
+                    //En caso de error devolvemos null
                     } catch (eException) { console.log(eException); return null; }
 
                 }
@@ -416,14 +405,8 @@
             )
             .then(function () {
 
-                    //Asignamos los eventos a los label para seleccionar la respuesta
-                    addEventListenerToElement("optionALabel", "click", function() { clickOnAnswerLabel(this, 0); });
-                    addEventListenerToElement("optionBLabel", "click", function() { clickOnAnswerLabel(this, 1); });
-                    addEventListenerToElement("optionCLabel", "click", function() { clickOnAnswerLabel(this, 2); });
-                    addEventListenerToElement("optionDLabel", "click", function() { clickOnAnswerLabel(this, 3); });
-
-                    //Asignamos el evento en el botón de contestar para validar la respuesta
-                    addEventListenerToElement("btnAnswerQuestion", "click", function() { answerQuestion(); })
+                    //Asignamos los eventos a los botones del quiz
+                    addEventListenerToQuizButtons();
 
                     //Una vez rellenados los div con la primera pregunta y sus respuesta, iniciamos el contador al cargar el DOM
                     addEventListenerToElement("pregunta", "DOMContentLoaded", cuentaAtras());
