@@ -34,7 +34,7 @@ const divPregunta=
             </div>               
         </div>
         <button id="btnAnswerQuestion">Contestar</button>
-    </div>`
+    </div>`;
 
 const tenQuest=()=>{
 
@@ -52,7 +52,9 @@ const tenQuest=()=>{
 
     //Terminamos la función
     return true;
+
 }
+
 const twentyfiveQuest=()=>{
 
     //Obtenemos el nombre del jugador
@@ -71,6 +73,7 @@ const twentyfiveQuest=()=>{
     return true;
 
 }
+
 const fiftyQuest=()=>{
 
     //Obtenemos el nombre del jugador

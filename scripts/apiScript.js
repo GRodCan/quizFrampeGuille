@@ -211,6 +211,10 @@
         //Respondemos a la pregunta actual
         let bAnswered = window.__quizQuestions__.answerCurrentQuestion(shuffleAnswerIndex);
 
+        //Eliminamos la propiedad del objeto que contiene la respuesta seleccionada ya que
+        //hemos respondido a la pregunta
+        delete window.__quizQuestions__.selectedShuffleAnswerIndex;
+
         //Si hemos podido contestar la pregunta actual entonces restablecemos el contador
         if(bAnswered !== null) {
 
@@ -275,7 +279,10 @@
     }
 
     //Creamos una función para obtener las preguntas de manera dinámica e inicializar el quiz
-    function initializeQuiz(playerName = "Player 1", iAmount = 10) {
+    function initializeQuiz(playerName = "player 1", iAmount = 10) {
+
+        //Convertimos el nombre del jugador a minúsculas
+        playerName = playerName.toLowerCase();
 
         //Obtenemos las preguntas
         getQuestions(iAmount)
@@ -304,17 +311,43 @@
 
                 });
 
-                //Establecemos el nombre del jugador
-                apiData.playerName = playerName;
+                //Si no existe el array de jugadores entonces lo creamos ahora
+                if(apiData.players === undefined) { apiData.players = []; }
+
+                //Si existe el array players dentro del objeto __quizQuestions__ entonces continuamos
+                if(window.__quizQuestions__.players !== undefined) {
+
+                    //Si el nuevo jugador ya existe en el array entonces lo eliminamos del objeto
+                    if(window.__quizQuestions__.players[playerName] !== undefined && window.__quizQuestions__.players.indexOf(playerName) !== -1) {
+
+                        //Eliminamos al jugador del array
+                        window.__quizQuestions__.players.splice(window.__quizQuestions__.players.indexOf(playerName), 1);
+
+                    }
+
+                    //Recorremos todos los jugadores y los añadimos al objeto actual
+                    for(let playerName in window.__quizQuestions__.players) { apiData.players[playerName] = window.__quizQuestions__.players[playerName]; }
+
+                }
+
+                //Creamos un objeto en el array con el nombre del jugador
+                apiData.players[playerName] = {};
+
+                //Establecemos el nombre del jugador dentro del array
+                apiData.players[playerName].playerName = playerName;
+
+                //Establecemos el actual jugador en un flag dentro del objeto para
+                //saber que variables estadísticas incrementar en las funciones
+                apiData.currentPlayer = playerName;
 
                 //Establecemos una propiedad del objeto para controlar el cursor de las preguntas
                 apiData.cursor = 0;
 
                 //Establecemos las propiedades de uso estadísticos para saber el total de preguntas
                 //acertadas, fallidas y timeout
-                apiData.totalCorrectQuestions = 0;
-                apiData.totalFailQuestions = 0;
-                apiData.totalTimeoutQuestions = 0;
+                apiData.players[playerName].totalCorrectQuestions = 0;
+                apiData.players[playerName].totalFailQuestions = 0;
+                apiData.players[playerName].totalTimeoutQuestions = 0;
 
                 //Creamos una función para obtener cualquier pregunta
                 apiData.getQuestion = function (iQuestionIndex = 0) {
@@ -352,7 +385,7 @@
 
                     //Si el indice es menor que 0 entonces fallamos a posta la pregunta actual
                     //incrementando el contador de preguntas timeout y devolviendo false
-                    if(shuffleAnswerIndex < 0) { apiData.totalTimeoutQuestions++; return false; }
+                    if(shuffleAnswerIndex < 0) { apiData.players[apiData.currentPlayer].totalTimeoutQuestions++; return false; }
 
                     //Controlamos los errores
                     try {
@@ -364,7 +397,7 @@
                         if(apiData[apiData.cursor].correct_answer.toString() === apiData[apiData.cursor].shuffled_answers[shuffleAnswerIndex].toString()) {
 
                             //Incrementamos el contador de las respuestas válidas
-                            apiData.totalCorrectQuestions++;
+                            apiData.players[apiData.currentPlayer].totalCorrectQuestions++;
 
                             //Devolvemos true
                             return true;
@@ -373,7 +406,7 @@
                         } else {
 
                             //Incrementamos el contador de las respuestas incorrectas
-                            apiData.totalFailQuestions++;
+                            apiData.players[apiData.currentPlayer].totalFailQuestions++;
 
                             //Devolvemos false
                             return false;
