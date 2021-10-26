@@ -214,14 +214,22 @@
         //Si hemos podido contestar la pregunta actual entonces restablecemos el contador
         if(bAnswered !== null) {
 
-            //Si la pregunta es correcta mostramos un div y si no mostramos otro
+            //Si la respuesta es correcta mostramos un div y si no mostramos otro
             if(bAnswered) {
 
+                //Mostramos el div de respuesta correcta
                 document.getElementById("root").innerHTML = divB;
 
-            //Si es incorrecta mostramos otro
+            //Si la respuesta ha dado un timeout entonces mostramos un div
+            } else if(shuffleAnswerIndex === -1 && !bAnswered) {
+
+                //Mostramos el div de timeout
+                document.getElementById("root").innerHTML = divT;
+
+            //Si la respuesta es incorrecta mostramos otro
             } else {
 
+                //Mostramos el div de respuesta incorrecta
                 document.getElementById("root").innerHTML = divM;
 
             }

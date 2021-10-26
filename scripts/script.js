@@ -95,7 +95,7 @@ const divB=`
     <div id="parrafBM__container">
     <h2>Respuesta correcta</h2>
     <p id="parrafoBM">Que te crees un empollón de mierda?</p>
-    <button id="siguientePregunta" onclick="answerAndShowNextQuestion()">Siguiente pregunta</button>
+    <button id="siguientePregunta" onclick="showNextQuestion()">Siguiente pregunta</button>
     </div>
     <div id="imgBM__container">
     <img src="./assets/images/bien.png" alt="Rick contento" class="imgBM">
@@ -107,7 +107,7 @@ const divM=`
     <div id="parrafBM__container">
     <h2>Respuesta errónea</h2>
     <p id="parrafoBM">Bueno, supongo que un despiste lo puede tener cualquiera... imbécil.</p>
-    <button id="siguientePregunta" onclick="answerAndShowNextQuestion()">Siguiente pregunta</button>
+    <button id="siguientePregunta" onclick="showNextQuestion()">Siguiente pregunta</button>
     </div>
     <div id="imgBM__container">
     <img src="./assets/images/mal.png" alt="Rick Disgustado" class="imgBM">
@@ -119,7 +119,7 @@ const divT=`
     <div id="parrafBM__container">
     <h2>¡Se acabó el tiempo!</h2>
     <p id="parrafoBM">Se te acabó el tiempo, parguela!</p>
-    <button id="siguientePregunta" onclick="answerAndShowNextQuestion()">Siguiente pregunta</button>
+    <button id="siguientePregunta" onclick="showNextQuestion()">Siguiente pregunta</button>
     </div>
     <div id="imgBM__container">
     <img src="./assets/images/mal.png" alt="Rick Disgustado" class="imgBM">
@@ -133,7 +133,7 @@ function cuentaAtras() {
     if(tiempo !== null) { return false; }
     tiempo = window.setInterval(function () {
             try {
-                if (segundos === 0) { window.__quizQuestions__.timeoutCurrentQuestion(); document.getElementById("root").innerHTML = divT; clearInterval(tiempo); }
+                if (segundos === 0) { window.__quizQuestions__.timeoutCurrentQuestion(); clearInterval(tiempo); tiempo = null; }
                 document.getElementById("timer").innerHTML = segundos.toString();
                 segundos--;
             } catch (eException) {}
@@ -141,7 +141,7 @@ function cuentaAtras() {
     return true;
 }
 
-function answerAndShowNextQuestion() {
+function showNextQuestion() {
 
     //Obtenemos la siguiente pregunta
     let nextQuestion = window.__quizQuestions__.getNextQuestion();
