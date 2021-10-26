@@ -7,14 +7,11 @@ import {
   browserSessionPersistence,
   createUserWithEmailAndPassword,
   updateProfile,
-  onAuthStateChanged
+  
 } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-auth.js";
   
 import {
     getFirestore,
-    addDoc,
-    setDoc,
-    doc,
     collection,
     getDocs,
     query,
@@ -116,21 +113,21 @@ document.getElementById("nameChange").addEventListener("click", ()=>{
 
 //PARA REGISTRAR PUNTUACIONES
 
-//accedemos a datos de usuario
-// onAuthStateChanged(auth, (user) => {
-//   if (user) {
-//       //añadimos doc al firestore con el nombre del ususario y la puntuación obtenida.
-//       addDoc(collection(store, "puntuaciones"), {
-//           userName:`${user.displayName}`,
-//           score: 10
-//       })
+// accedemos a datos de usuario
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+      //añadimos doc al firestore con el nombre del ususario y la puntuación obtenida.
+      addDoc(collection(store, "puntuaciones10"), {
+          userName:`${user.displayName}`,
+          score: 10
+      })
       
-//     console.log(user.displayName)
-//   } else {
-//     // User is signed out
-//     // ...
-//   }
-// });
+    console.log(user.displayName)
+  } else {
+    // User is signed out
+    // ...
+  }
+});
 
 
 //OBTENER PUNTUACIONES ACTUALES
