@@ -50,22 +50,27 @@ setPersistence(auth, browserSessionPersistence)
   console.log(auth)
   console.log(auth.currentUser)
   
-  // SIGN UP
+// SIGN UP + cambio de nombre
 document.getElementById("signUp").addEventListener("click", ()=>{
   const email = document.getElementById("email_SignUp").value
   const password = document.getElementById("pass_SignUp").value
-  createUserWithEmailAndPassword(auth, email, password)
+  await createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
-      
-
     })
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
       console.log(errorCode + errorMessage)
     });
-  })
+  await updateProfile(auth.currentUser, {
+    displayName: `${document.getElementById("name").value}`
+    }).then(() => {
+    console.log("Profile updated!")
+    }).catch((error) => {
+      // An error occurred
+    });
+    })
 
   //LO RECOGE:
   // <input type="email" id="email_SignUp" autocomplete="off">
@@ -125,7 +130,6 @@ onAuthStateChanged(auth, (user) => {
     console.log(user.displayName)
   } else {
     // User is signed out
-    // ...
   }
 });
 

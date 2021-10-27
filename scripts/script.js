@@ -7,12 +7,41 @@ const divPlay=`<div id="play">
 </div>
 </div>`
 
+const divPreSignUpIn =`
+<div id="play">
+<button id="signUp">Vengo a ver que es esto</button>
+<button id="signUp">Ya nos conocemos...</button>
+</div>
+`
+
+const divSignUp=`
+<label>Name:</label>
+<input type="text" name="" id="name">
+<label>Password:</label>
+<input type="password" id="pass_SignUp">
+<label>Email:</label>
+<input type="email" id="email_SignUp" autocomplete="off">
+<button id="signUp">Registrar</button>
+`
+
+const divSignIn=`
+<div id="play">
+<input type="email" id="email_SignIn" autocomplete="off">
+<input type="password" id="pass_SignIn">
+<button id="signIn">Entrar</button>
+</div>
+`
+
+
+
 const playDiv=()=>{
     if(document.getElementById("play")){
       return document.getElementById("start").removeChild(document.getElementById("play"))
     } else{
     return document.getElementById("start").innerHTML += divPlay}
 }
+
+
 
 const divPregunta=
     `<div id="pregunta">
