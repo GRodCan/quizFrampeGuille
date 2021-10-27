@@ -1,5 +1,7 @@
+const userName= window.localStorage.getItem("userName")
+console.log(userName)
 const divPlay=`<div id="play">
-<p>Name:</p><input type="text" name="" id="playerName" placeholder="Player Name">
+<p>Bienvenido ${userName}, elige un modo</p>
 <div id="buttonsMode">
   <button onclick="tenQuest()">10 PREGUNTAS</button>
   <button onclick="twentyfiveQuest()">25 PREGUNTAS</button>
@@ -9,37 +11,93 @@ const divPlay=`<div id="play">
 
 const divPreSignUpIn =`
 <div id="play">
-<button id="signUp">Vengo a ver que es esto</button>
-<button id="signUp">Ya nos conocemos...</button>
+<button id="button_to_signUp">Vengo a ver que es esto</button>
+<button id="button_to_signIn">Ya nos conocemos...</button>
 </div>
 `
 
-const divSignUp=`
-<label>Name:</label>
-<input type="text" name="" id="name">
-<label>Password:</label>
-<input type="password" id="pass_SignUp">
-<label>Email:</label>
-<input type="email" id="email_SignUp" autocomplete="off">
-<button id="signUp">Registrar</button>
+const divSignUp_emailpass=`
+<div id="divSignUp">
+    <div id="title_signUp">
+    <a href=".">
+        <h1>El QUIZ DEL CALAMAR</h1>
+    </a>
+    </div>
+    <label>Email:</label>
+    <input type="email" id="email_SignUp" autocomplete="off">
+    <label>Password:</label>
+    <input type="password" id="pass_SignUp">
+    <button id="signUp">Registrar</button>
+</div>
 `
+const divSignUp_name=`
+<div id="divSignUp">
+    <div id="title_signUp">
+    <a href=".">
+        <h1>El QUIZ DEL CALAMAR</h1>
+    </a>
+    </div>
+    <label>Name:</label>
+    <input type="text" name="" id="name">
+    <button id="signUp_N">Registrar</button>
+</div>`
 
 const divSignIn=`
 <div id="play">
+<label>Name:</label>
 <input type="email" id="email_SignIn" autocomplete="off">
+<label>Password:</label>
 <input type="password" id="pass_SignIn">
 <button id="signIn">Entrar</button>
 </div>
 `
+const divStart=`
+<div id="errorDiv"></div>
+<!-- codigo start -->
+<img id="rickStart" src="./assets/images/start.png" alt="Rick vacilón">
+<div id="start">
+    <div id="title">
+        <h1>El QUIZ DEL CALAMAR</h1>
+    </div>
+    <div id="buttonsStart">
+        <button id="buttonPlay" onclick="buttonPlay()">PLAY</button>
+        <button id="buttonClas" >CLASIFICATION</button>
+     </div>
+`
 
 
-
-const playDiv=()=>{
+const buttonPlay=()=>{
     if(document.getElementById("play")){
       return document.getElementById("start").removeChild(document.getElementById("play"))
-    } else{
-    return document.getElementById("start").innerHTML += divPlay}
-}
+    }
+    if(window.userName !=undefined){
+        return document.getElementById("start").innerHTML += divPlay
+    }
+     else{
+        document.getElementById("start").innerHTML += divPreSignUpIn
+        document.getElementById("button_to_signIn").addEventListener("click",
+            ()=>{
+                document.getElementById("start").removeChild(document.getElementById("play"))
+                document.getElementById("start").innerHTML += divSignIn
+                return document.getElementById("signIn").addEventListener("click",()=>{
+                    document.getElementById("start").removeChild(document.getElementById("play"))
+                    document.getElementById("start").innerHTML += divPlay
+                })
+            })
+            document.getElementById("button_to_signUp").addEventListener("click",
+            ()=>{
+                document.getElementById("root").innerHTML = divSignUp_emailpass
+                document.getElementById("signUp").addEventListener("click", async function(){
+                    await window.createUser()
+                    document.getElementById("root").innerHTML = divSignUp_name
+                    document.getElementById("signUp_N").addEventListener("click", async function(){
+                        await window.establecerNombre() 
+                        document.getElementById("root").innerHTML = divStart
+                })
+            })
+        })
+    }};
+                       
 
 
 
@@ -67,17 +125,18 @@ const divPregunta=
 
 const tenQuest=()=>{
 
-    //Obtenemos el nombre del jugador
-    let playerName = document.getElementById("playerName");
+    // Ya no seria necesario porque tienen que estar logueados
+    // //Obtenemos el nombre del jugador
+    // let playerName = document.getElementById("playerName");
 
-    //Si no tenemos el nombre del jugador entonces damos un error y detenemos la función
-    if(playerName === null || playerName.value === "") { alert("Please, enter a player name"); return false; }
+    // //Si no tenemos el nombre del jugador entonces damos un error y detenemos la función
+    // if(playerName === null || playerName.value === "") { alert("Please, enter a player name"); return false; }
 
     //Asignamos al div root los divs con las preguntas
     document.getElementById("root").innerHTML = divPregunta;
-
     //Incializamos el cuestionario con las 10 preguntas por defecto
-    initializeQuiz(playerName.value);
+    initializeQuiz(userName);
+
 
     //Terminamos la función
     return true;
@@ -86,17 +145,17 @@ const tenQuest=()=>{
 
 const twentyfiveQuest=()=>{
 
-    //Obtenemos el nombre del jugador
-    let playerName = document.getElementById("playerName");
+    // //Obtenemos el nombre del jugador
+    // let playerName = document.getElementById("playerName");
 
-    //Si no tenemos el nombre del jugador entonces damos un error y detenemos la función
-    if(playerName === null || playerName.value === "") { alert("Please, enter a player name"); return false; }
+    // //Si no tenemos el nombre del jugador entonces damos un error y detenemos la función
+    // if(playerName === null || playerName.value === "") { alert("Please, enter a player name"); return false; }
 
     //Asignamos al div root los divs con las preguntas
     document.getElementById("root").innerHTML = divPregunta;
 
     //Incializamos el cuestionario con 25 preguntas
-    initializeQuiz(playerName.value, 25);
+    initializeQuiz(userName, 25);
 
     //Terminamos la función
     return true;
@@ -105,17 +164,17 @@ const twentyfiveQuest=()=>{
 
 const fiftyQuest=()=>{
 
-    //Obtenemos el nombre del jugador
-    let playerName = document.getElementById("playerName");
+    // //Obtenemos el nombre del jugador
+    // let playerName = document.getElementById("playerName");
 
-    //Si no tenemos el nombre del jugador entonces damos un error y detenemos la función
-    if(playerName === null || playerName.value === "") { alert("Please, enter a player name"); return false; }
+    // //Si no tenemos el nombre del jugador entonces damos un error y detenemos la función
+    // if(playerName === null || playerName.value === "") { alert("Please, enter a player name"); return false; }
 
     //Asignamos al div root los divs con las preguntas
     document.getElementById("root").innerHTML = divPregunta;
 
     //Incializamos el cuestionario con 50 preguntas
-    initializeQuiz(playerName.value, 50);
+    initializeQuiz(userName, 50);
 
     //Terminamos la función
     return true;
