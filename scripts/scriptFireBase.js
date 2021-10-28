@@ -7,6 +7,7 @@ import {
   browserSessionPersistence,
   createUserWithEmailAndPassword,
   updateProfile,
+  onAuthStateChanged
   
 } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-auth.js";
   
@@ -15,6 +16,7 @@ import {
     collection,
     getDocs,
     query,
+    addDoc
 } from 'https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js';
 
   // Your web app's Firebase configuration
@@ -44,28 +46,46 @@ setPersistence(auth, browserSessionPersistence)
   .catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
-    console.log(errorCode+errorMessage)
   });
-
-  console.log(auth)
-  console.log(auth.currentUser)
   
-  // SIGN UP
-document.getElementById("signUp").addEventListener("click", ()=>{
-  const email = document.getElementById("email_SignUp").value
-  const password = document.getElementById("pass_SignUp").value
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      
+  // SIGN UP + cambio de nombre
+const createUser=()=>{
+  console.log("entra")
+  try{    
+    const email = document.getElementById("email_SignUp").value
+    const password = document.getElementById("pass_SignUp").value
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode + errorMessage)
+      })
+    }catch{
+      }}  
+const establecerNombre=()=>{
+  console.log("entra")
+  try{
+        updateProfile(auth.currentUser, {
+        displayName: `${document.getElementById("name").value}`
+        }).then(() => {
+        console.log("Profile updated!")
+        }).catch((error) => {
+          // An error occurred
+        });
+      }catch{}
+      }
+//las establecemos como variables globales
+window.createUser= createUser
+window.establecerNombre= establecerNombre
 
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorCode + errorMessage)
-    });
-  })
+// if (document.getElementById("signUp")){
+//   document.getElementById("signUp").addEventListener("click", async function (){
+//   await window.createUser
+//   await window.establecerNombre  
+//     })}
 
   //LO RECOGE:
   // <input type="email" id="email_SignUp" autocomplete="off">
@@ -74,7 +94,7 @@ document.getElementById("signUp").addEventListener("click", ()=>{
 
 
   //SIGN IN
-document.getElementById("signIn").addEventListener("click", ()=>{
+if (document.getElementById("signIn")){document.getElementById("signIn").addEventListener("click", ()=>{
   const email = document.getElementById("email_SignIn").value
   const password = document.getElementById("pass_SignIn").value
   signInWithEmailAndPassword(auth, email, password)
@@ -87,23 +107,21 @@ document.getElementById("signIn").addEventListener("click", ()=>{
     const errorMessage = error.message;
     console.log(errorCode + errorMessage)
     });
-})
+})}
 // LO RECOGE
 // <input type="email" id="email_SignIn" autocomplete="off">
 //     <input type="password" id="pass_SignIn">
 //     <button id="signIn">Entrar</button>
 
-document.getElementById("nameChange").addEventListener("click", ()=>{
+if (document.getElementById("nameChange")){document.getElementById("nameChange").addEventListener("click", ()=>{
   updateProfile(auth.currentUser, {
   displayName: `${document.getElementById("name").value}`
   }).then(() => {
   console.log("Profile updated!")
-  // ...
   }).catch((error) => {
   // An error occurred
-  // ...
   });
-})
+})}
 
 // LO RECOGE:
 // <input type="text" name="" id="name">
@@ -114,20 +132,35 @@ document.getElementById("nameChange").addEventListener("click", ()=>{
 //PARA REGISTRAR PUNTUACIONES
 
 // accedemos a datos de usuario
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-      //añadimos doc al firestore con el nombre del ususario y la puntuación obtenida.
-      addDoc(collection(store, "puntuaciones10"), {
-          userName:`${user.displayName}`,
-          score: 10
-      })
+// onAuthStateChanged(auth, (user) => {
+//   if (user) {
+//     window.user= user
+//       //añadimos doc al firestore con el nombre del ususario y la puntuación obtenida.
+//       addDoc(collection(store, "puntuaciones10"), {
+//           userName:`${user.displayName}`,
+//           score: 10
+//       })
       
-    console.log(user.displayName)
-  } else {
+//     console.log(user.displayName)
+//   } else {
+//     // User is signed out
+//   }
+// });
+
+window.addEventListener("load",()=>{onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log("si hay")
+    //para que reconozca cuando hay un usuario
+      window.userName= user.displayName
+    //guardamos nombre en el localstore
+      window.localStorage.setItem("userName", user.displayName)
+    } else {
     // User is signed out
-    // ...
+    console.log("no hay usuario")
   }
 });
+
+})
 
 
 //OBTENER PUNTUACIONES ACTUALES
@@ -141,4 +174,8 @@ docs_Puntuaciones.forEach(doc => {
 })
 
 // arr_puntuaciones es un array con todas las puntuaciones guardadas en el FIRESTORE
-console.log(arr_puntuaciones)
+console.log("array de puntuaciones:", arr_puntuaciones)
+
+
+
+
