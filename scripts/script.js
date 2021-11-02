@@ -1,17 +1,17 @@
 
 async function getUserName(){  
 const userName= await window.localStorage.getItem("userName")
-console.log(userName)
+console.log(userName)}
 
-const divPlay=`<div id="play">
-<p>Bienvenido ${userName}, elige un modo</p>
+const divPlay= `<div id="play">
+<p>Bienvenido ${window.localStorage.getItem("userName")}, elige un modo</p>
 <div id="buttonsMode">
   <button onclick="tenQuest()">10 PREGUNTAS</button>
   <button onclick="twentyfiveQuest()">25 PREGUNTAS</button>
   <button onclick="fiftyQuest()">50 PREGUNTAS</button>
 </div>
 </div>`
-return divPlay}
+
 
 const divPreSignUpIn =`
 <div id="play">
@@ -48,7 +48,7 @@ const divSignUp_name=`
 
 const divSignIn=`
 <div id="play">
-<label>Name:</label>
+<label>Email:</label>
 <input type="email" id="email_SignIn" autocomplete="off">
 <label>Password:</label>
 <input type="password" id="pass_SignIn">
@@ -75,9 +75,11 @@ async function buttonPlay(){
     if(document.getElementById("play")){
       return document.getElementById("start").removeChild(document.getElementById("play"))
     }
-    console.log(userName)
+   
     if(window.userName !=undefined){
-        return document.getElementById("start").innerHTML += await getUserName()
+
+        await getUserName()
+        return document.getElementById("start").innerHTML += divPlay
     }
      else{
         document.getElementById("start").innerHTML += divPreSignUpIn
@@ -85,11 +87,19 @@ async function buttonPlay(){
             ()=>{
                 document.getElementById("start").removeChild(document.getElementById("play"))
                 document.getElementById("start").innerHTML += divSignIn
-                return document.getElementById("signIn").addEventListener("click",async function(){
+                
+                async function logIn(){
                     await window.signIn()
                     document.getElementById("start").removeChild(document.getElementById("play"))
-                     document.getElementById("start").innerHTML += await getUserName()
-                })
+                    await getUserName()
+                }
+
+                document.getElementById("signIn").addEventListener("click",async function(){
+                    await logIn();
+                    return document.getElementById("start").innerHTML += divPlay
+                }
+                )
+                
             })
             document.getElementById("button_to_signUp").addEventListener("click",
             ()=>{
@@ -258,13 +268,16 @@ function showNextQuestion() {
         //Obtenemos el objeto que contiene la puntuación del jugador actual
         let currentPlayerScore = window.__quizQuestions__.players[currentPlayerName];
         
+        //obtenemos total de preguntas con la suma del desglose y lo guardamos para guardar en la clasificacion correspondiente.
+        let currentTotalQuestion= currentPlayerScore.totalCorrectQuestions + currentPlayerScore.totalFailQuestions + currentPlayerScore.totalTimeoutQuestions
+        window.localStorage.setItem("totalQuestion", currentTotalQuestion)
         //Mostramos las preguntas correctas e incorrectas
         window.localStorage.setItem("nuevaPuntuacion", currentPlayerScore.totalCorrectQuestions)
         document.getElementById("totalCorrectQuestionsP").innerHTML = currentPlayerScore.totalCorrectQuestions;
         document.getElementById("totalIncorrectQuestionsP").innerHTML = (currentPlayerScore.totalFailQuestions + currentPlayerScore.totalTimeoutQuestions).toString();
         //addEventListener del boton
         document.getElementById("button_individualClassifications").addEventListener("click", window.guardarPuntuacion())
-        
+        console.log(currentPlayerScore)
         //Terminamos la función
         return true;
 
@@ -291,28 +304,45 @@ const divs_clasificaciones=`
 </div>
 <div id="div_clasificaciones">
 <div id="div_clasificaciones_buttons">
-<button id="button_clasification10" onclick="" class="clasification_buttons">10</button>
-<button id="button_clasification25" onclick="">25</button>
-<button id="button_clasification50" onclick="">50</button>
+<button id="button_clasification10" onclick="clasification_print(10)" class="clasification_buttons">10</button>
+<button id="button_clasification25" onclick="clasification_print(25)">25</button>
+<button id="button_clasification50" onclick="clasification_print(50)">50</button>
 </div>
     <div id="container_tarjetas">
-                        
-                    </div>
-                </div>`
- function clasification_print(){
+    </div>
+</div>`
+ function clasification_print(number){
      document.getElementById("root").innerHTML = divs_clasificaciones
-     const arr_puntuaciones =JSON.parse(localStorage.puntuaciones)
-     console.log(arr_puntuaciones)
-     const arr_puntuaciones_ordenadas= arr_puntuaciones.sort((a,b)=> {console.log(a)
-        return b.score-a.score})
-     console.log(arr_puntuaciones_ordenadas)
-     for (let i in arr_puntuaciones){
+     let arr_puntuaciones=[]
+    if(number==10){        
+        JSON.parse(localStorage.puntuaciones10).forEach( (doc)=>{
+            arr_puntuaciones.push(doc)
+        })
+    }
+    if(number==25){
+        JSON.parse(localStorage.puntuaciones25).forEach( (doc)=>{
+           arr_puntuaciones.push(doc)
+        })
+    }
+    if(number==50){
+        JSON.parse(localStorage.puntuaciones50).forEach( (doc)=>{
+            arr_puntuaciones.push(doc)
+        })
+    }
+    let arr_ordenado=arr_puntuaciones.sort((a,b)=> {return b.score-a.score})
+        
+     
+     for (let i=0;i<arr_ordenado.length;i++){
         const div_tarjeta= `
             <div class="tarjeta_puntuacion">
+            <div class="ranking_num">
+            <p>${i + 1}</p>
+            </div>
             <p>Name:</p>
-            <p>${arr_puntuaciones[i].userName}</p>
+            <p>${arr_ordenado[i].userName}</p>
             <p>Score:</p>
-            <p>${arr_puntuaciones[i].score}</p>
+            <p>${arr_ordenado[i].score}</p>
+            <p>${arr_ordenado[i].date}</p>
             </div>
         `
         document.getElementById("container_tarjetas").innerHTML += div_tarjeta 
