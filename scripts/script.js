@@ -75,7 +75,6 @@ async function buttonPlay(){
     if(document.getElementById("play")){
       return document.getElementById("start").removeChild(document.getElementById("play"))
     }
-    console.log(userName)
     if(window.userName !=undefined){
         return document.getElementById("start").innerHTML += await getUserName()
     }
@@ -215,11 +214,11 @@ const divStats = '<div id="individualClassifications">\n' +
     '                <h3>There are your results:</h3>\n' +
     '            </div>\n' +
     '            <div id="totalCorrectQuestions">\n' +
-    '                <img src="./assets/bien.png" alt="Corrects questions">\n' +
+    '                <img src="./assets/images/acierto.png" alt="aciertoIcono">\n' +
     '                <p id="totalCorrectQuestionsP"></p>\n' +
     '            </div>\n' +
     '            <div id="totalIncorrectQuestions">\n' +
-    '                <img src="./assets/mal.png" alt="Incorrect questions">\n' +
+    '                <img src="./assets/images/fallo.png" alt="falloIcono">\n' +
     '                <p id="totalIncorrectQuestionsP"></p>\n' +
     '            </div>\n' + 
                 '<button id="button_individualClassifications">Continuar</button>\n' +

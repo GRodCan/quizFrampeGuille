@@ -296,3 +296,50 @@ img.imgBM{
 #errorDiv{
     color: red;
 }
+
+/* DIV CLASIFICACIONES INDIVIDUALES */
+
+#titleClassifications{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    font-family: loveloB, Geneva, Tahoma, sans-serif;
+    font-size: 30px;
+    max-height: 70px;
+}
+
+#totalCorrectQuestions{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    font-family: loveloB, Geneva, Tahoma, sans-serif;
+    font-size: 35px;
+    max-height: 70px;
+}
+
+#totalIncorrectQuestions{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    font-family: loveloB, Geneva, Tahoma, sans-serif;
+    font-size: 35px;
+}
+
+#individualClassifications img{
+    max-width: 40px;
+    margin-right: 10px;
+}
+
+#individualClassifications p{
+    margin-top: 40px;
+}
+
+#button_individualClassifications{
+    font-family: loveloB, Geneva, Tahoma, sans-serif;
+    font-size: 18px;
+    margin: 0 auto;
+    display: block;
+}
