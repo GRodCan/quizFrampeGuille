@@ -281,6 +281,17 @@
     //Creamos una función para obtener las preguntas de manera dinámica e inicializar el quiz
     function initializeQuiz(playerName = "player 1", iAmount = 10) {
 
+        //Si el playerName no está definido, es null o no es un string, entonces devolvemos un error y terminamos el método
+        if(playerName === undefined || playerName === null || typeof playerName !== "string") {
+
+            //Mostramos un error en el div de errores
+            setInnerHtml("errorDiv", "Player name is not a valid name.");
+
+            //Terminamos el método devolviendo false
+            return false;
+
+        }
+
         //Convertimos el nombre del jugador a minúsculas
         playerName = playerName.toLowerCase();
 
