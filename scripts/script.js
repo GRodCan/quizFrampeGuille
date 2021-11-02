@@ -209,7 +209,8 @@ const divStats = '<div id="individualClassifications">\n' +
     '            <div id="totalIncorrectQuestions">\n' +
     '                <img src="./assets/mal.png" alt="Incorrect questions">\n' +
     '                <p id="totalIncorrectQuestionsP"></p>\n' +
-    '            </div>\n' +
+    '            </div>\n' + 
+                '<button id="button_individualClassifications">Continuar</button>\n' +
     '        </div>';
 
 let segundos = 30;
@@ -238,16 +239,20 @@ function showNextQuestion() {
         //Mostramos el div que incluye las clasificaciones individuales
         document.getElementById("root").innerHTML = divStats;
 
+        
         //Obtenemos el nombre del jugador actual
         let currentPlayerName = window.__quizQuestions__.currentPlayer;
-
+        
         //Obtenemos el objeto que contiene la puntuación del jugador actual
         let currentPlayerScore = window.__quizQuestions__.players[currentPlayerName];
-
+        
         //Mostramos las preguntas correctas e incorrectas
+        window.localStorage.setItem("nuevaPuntuacion", currentPlayerScore.totalCorrectQuestions)
         document.getElementById("totalCorrectQuestionsP").innerHTML = currentPlayerScore.totalCorrectQuestions;
         document.getElementById("totalIncorrectQuestionsP").innerHTML = (currentPlayerScore.totalFailQuestions + currentPlayerScore.totalTimeoutQuestions).toString();
-
+        //addEventListener del boton
+        document.getElementById("button_individualClassifications").addEventListener("click", window.guardarPuntuacion())
+        
         //Terminamos la función
         return true;
 
