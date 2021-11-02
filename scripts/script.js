@@ -1,4 +1,5 @@
-const userName= window.localStorage.getItem("userName")
+async function getUserName(){  
+const userName= await window.localStorage.getItem("userName")
 console.log(userName)
 const divPlay=`<div id="play">
 <p>Bienvenido ${userName}, elige un modo</p>
@@ -8,6 +9,7 @@ const divPlay=`<div id="play">
   <button onclick="fiftyQuest()">50 PREGUNTAS</button>
 </div>
 </div>`
+return divPlay}
 
 const divPreSignUpIn =`
 <div id="play">
@@ -66,12 +68,14 @@ const divStart=`
 `
 
 
-const buttonPlay=()=>{
+
+async function buttonPlay(){
     if(document.getElementById("play")){
       return document.getElementById("start").removeChild(document.getElementById("play"))
     }
+    console.log(userName)
     if(window.userName !=undefined){
-        return document.getElementById("start").innerHTML += divPlay
+        return document.getElementById("start").innerHTML += await getUserName()
     }
      else{
         document.getElementById("start").innerHTML += divPreSignUpIn
@@ -79,9 +83,10 @@ const buttonPlay=()=>{
             ()=>{
                 document.getElementById("start").removeChild(document.getElementById("play"))
                 document.getElementById("start").innerHTML += divSignIn
-                return document.getElementById("signIn").addEventListener("click",()=>{
+                return document.getElementById("signIn").addEventListener("click",async function(){
+                    await window.signIn()
                     document.getElementById("start").removeChild(document.getElementById("play"))
-                    document.getElementById("start").innerHTML += divPlay
+                     document.getElementById("start").innerHTML += await getUserName()
                 })
             })
             document.getElementById("button_to_signUp").addEventListener("click",
@@ -96,7 +101,7 @@ const buttonPlay=()=>{
                 })
             })
         })
-    }};
+    }}
                        
 
 
@@ -123,12 +128,12 @@ const divPregunta=
         <button id="btnAnswerQuestion">Contestar</button>
     </div>`;
 
-const tenQuest=()=>{
+async function tenQuest (){
 
     // Ya no seria necesario porque tienen que estar logueados
     // //Obtenemos el nombre del jugador
     // let playerName = document.getElementById("playerName");
-
+    const userName= await window.localStorage.getItem("userName")
     // //Si no tenemos el nombre del jugador entonces damos un error y detenemos la función
     // if(playerName === null || playerName.value === "") { alert("Please, enter a player name"); return false; }
 
@@ -260,5 +265,40 @@ function showNextQuestion() {
 
     //Volvemos a iniciar el contador
     cuentaAtras();
+
+}
+
+const divs_clasificaciones=`
+<div id="title">
+    <a href="."><h1>El QUIZ DEL CALAMAR</h1></a>
+</div>
+<div id="div_clasificaciones">
+<div id="div_clasificaciones_buttons">
+<button id="button_clasification10" onclick="" class="clasification_buttons">10</button>
+<button id="button_clasification25" onclick="">25</button>
+<button id="button_clasification50" onclick="">50</button>
+</div>
+    <div id="container_tarjetas">
+                        
+                    </div>
+                </div>`
+ function clasification_print(){
+     document.getElementById("root").innerHTML = divs_clasificaciones
+     const arr_puntuaciones =JSON.parse(localStorage.puntuaciones)
+     console.log(arr_puntuaciones)
+     const arr_puntuaciones_ordenadas= arr_puntuaciones.sort((a,b)=> {console.log(a)
+        return b.score-a.score})
+     console.log(arr_puntuaciones_ordenadas)
+     for (let i in arr_puntuaciones){
+        const div_tarjeta= `
+            <div class="tarjeta_puntuacion">
+            <p>Name:</p>
+            <p>${arr_puntuaciones[i].userName}</p>
+            <p>Score:</p>
+            <p>${arr_puntuaciones[i].score}</p>
+            </div>
+        `
+        document.getElementById("container_tarjetas").innerHTML += div_tarjeta 
+    }
 
 }

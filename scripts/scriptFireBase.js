@@ -50,7 +50,7 @@ setPersistence(auth, browserSessionPersistence)
   
   // SIGN UP + cambio de nombre
 const createUser=()=>{
-  console.log("entra")
+  
   try{    
     const email = document.getElementById("email_SignUp").value
     const password = document.getElementById("pass_SignUp").value
@@ -66,11 +66,14 @@ const createUser=()=>{
     }catch{
       }}  
 const establecerNombre=()=>{
-  console.log("entra")
+  
   try{
         updateProfile(auth.currentUser, {
-        displayName: `${document.getElementById("name").value}`
-        }).then(() => {
+        displayName: `${document.getElementById("name").value}`})
+        .then(() => {
+        window.userName= auth.currentUser.displayName        
+        console.log(auth.currentUser)
+        window.localStorage.setItem("userName", auth.currentUser.displayName)
         console.log("Profile updated!")
         }).catch((error) => {
           // An error occurred
@@ -94,20 +97,24 @@ window.establecerNombre= establecerNombre
 
 
   //SIGN IN
-if (document.getElementById("signIn")){document.getElementById("signIn").addEventListener("click", ()=>{
-  const email = document.getElementById("email_SignIn").value
-  const password = document.getElementById("pass_SignIn").value
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-    const user = userCredential.user;
-    console.log("bienvenido")
-    })
-    .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.log(errorCode + errorMessage)
+const signIn=()=>{
+    const email = document.getElementById("email_SignIn").value
+    const password = document.getElementById("pass_SignIn").value
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+      const user = userCredential.user;
+      console.log(user)
+      window.localStorage.setItem("userName", user.displayName)
+    
+      })
+      .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode + errorMessage)
     });
-})}
+}
+
+window.signIn=signIn
 // LO RECOGE
 // <input type="email" id="email_SignIn" autocomplete="off">
 //     <input type="password" id="pass_SignIn">
@@ -149,7 +156,7 @@ if (document.getElementById("nameChange")){document.getElementById("nameChange")
 
 window.addEventListener("load",()=>{onAuthStateChanged(auth, (user) => {
   if (user) {
-    console.log("si hay")
+    console.log("si hay user")
     //para que reconozca cuando hay un usuario
       window.userName= user.displayName
     //guardamos nombre en el localstore
@@ -163,7 +170,7 @@ window.addEventListener("load",()=>{onAuthStateChanged(auth, (user) => {
 })
 
 
-//OBTENER PUNTUACIONES ACTUALES
+//OBTENER PUNTUACIONES ACTUALES del firestore
 const query_Puntuaciones = await query(collection(store, "puntuaciones"));
         
 const docs_Puntuaciones = await getDocs(query_Puntuaciones);
@@ -172,9 +179,10 @@ let arr_puntuaciones=[]
 docs_Puntuaciones.forEach(doc => {
   arr_puntuaciones.push(doc.data())
 })
+window.localStorage.setItem("puntuaciones", JSON.stringify(arr_puntuaciones))
 
 // arr_puntuaciones es un array con todas las puntuaciones guardadas en el FIRESTORE
-console.log("array de puntuaciones:", arr_puntuaciones)
+
 
 
 
