@@ -139,20 +139,24 @@ if (document.getElementById("nameChange")){document.getElementById("nameChange")
 //PARA REGISTRAR PUNTUACIONES
 
 // accedemos a datos de usuario
-// onAuthStateChanged(auth, (user) => {
-//   if (user) {
-//     window.user= user
-//       //añadimos doc al firestore con el nombre del ususario y la puntuación obtenida.
-//       addDoc(collection(store, "puntuaciones10"), {
-//           userName:`${user.displayName}`,
-//           score: 10
-//       })
+const guardarPuntuacion=()=>{
+if (window.localStorage.getItem("nuevaPuntuacion")!=null){
+onAuthStateChanged(auth, (user) => {
+  
+    window.user= user
+      //añadimos doc al firestore con el nombre del ususario y la puntuación obtenida.
+      addDoc(collection(store, "puntuaciones10"), {
+          userName:`${user.displayName}`,
+          score: window.localStorage.getItem("nuevaPuntuacion")
+      })
+      window.localStorage.removeItem("nuevaPuntuacion")
       
-//     console.log(user.displayName)
-//   } else {
-//     // User is signed out
-//   }
-// });
+    console.log(user.displayName)
+  
+})}
+};
+window.guardarPuntuacion = guardarPuntuacion
+
 
 window.addEventListener("load",()=>{onAuthStateChanged(auth, (user) => {
   if (user) {

@@ -1,6 +1,8 @@
+
 async function getUserName(){  
 const userName= await window.localStorage.getItem("userName")
 console.log(userName)
+
 const divPlay=`<div id="play">
 <p>Bienvenido ${userName}, elige un modo</p>
 <div id="buttonsMode">
@@ -130,18 +132,16 @@ const divPregunta=
 
 async function tenQuest (){
 
-    // Ya no seria necesario porque tienen que estar logueados
-    // //Obtenemos el nombre del jugador
-    // let playerName = document.getElementById("playerName");
+
     const userName= await window.localStorage.getItem("userName")
-    // //Si no tenemos el nombre del jugador entonces damos un error y detenemos la función
-    // if(playerName === null || playerName.value === "") { alert("Please, enter a player name"); return false; }
+    
+
 
     //Asignamos al div root los divs con las preguntas
     document.getElementById("root").innerHTML = divPregunta;
+
     //Incializamos el cuestionario con las 10 preguntas por defecto
     initializeQuiz(userName);
-
 
     //Terminamos la función
     return true;
@@ -149,12 +149,6 @@ async function tenQuest (){
 }
 
 const twentyfiveQuest=()=>{
-
-    // //Obtenemos el nombre del jugador
-    // let playerName = document.getElementById("playerName");
-
-    // //Si no tenemos el nombre del jugador entonces damos un error y detenemos la función
-    // if(playerName === null || playerName.value === "") { alert("Please, enter a player name"); return false; }
 
     //Asignamos al div root los divs con las preguntas
     document.getElementById("root").innerHTML = divPregunta;
@@ -168,12 +162,6 @@ const twentyfiveQuest=()=>{
 }
 
 const fiftyQuest=()=>{
-
-    // //Obtenemos el nombre del jugador
-    // let playerName = document.getElementById("playerName");
-
-    // //Si no tenemos el nombre del jugador entonces damos un error y detenemos la función
-    // if(playerName === null || playerName.value === "") { alert("Please, enter a player name"); return false; }
 
     //Asignamos al div root los divs con las preguntas
     document.getElementById("root").innerHTML = divPregunta;
@@ -222,6 +210,21 @@ const divT=`
     </div>
     </div>`;
 
+const divStats = '<div id="individualClassifications">\n' +
+    '            <div id="titleClassifications">\n' +
+    '                <h3>There are your results:</h3>\n' +
+    '            </div>\n' +
+    '            <div id="totalCorrectQuestions">\n' +
+    '                <img src="./assets/bien.png" alt="Corrects questions">\n' +
+    '                <p id="totalCorrectQuestionsP"></p>\n' +
+    '            </div>\n' +
+    '            <div id="totalIncorrectQuestions">\n' +
+    '                <img src="./assets/mal.png" alt="Incorrect questions">\n' +
+    '                <p id="totalIncorrectQuestionsP"></p>\n' +
+    '            </div>\n' + 
+                '<button id="button_individualClassifications">Continuar</button>\n' +
+    '        </div>';
+
 let segundos = 30;
 let tiempo = null;
 
@@ -245,9 +248,23 @@ function showNextQuestion() {
     //Si no tenemos siguiente entonces hemos llegado al fin del formulario
     if(nextQuestion === null) {
 
-        //Mostramos el div de final del formulário
-        document.getElementById('root').innerHTML = 'FIN DEL FORMULARIO. RECUERDA QUE LOS STATS ESTAN EN EL OBJETO';
+        //Mostramos el div que incluye las clasificaciones individuales
+        document.getElementById("root").innerHTML = divStats;
 
+        
+        //Obtenemos el nombre del jugador actual
+        let currentPlayerName = window.__quizQuestions__.currentPlayer;
+        
+        //Obtenemos el objeto que contiene la puntuación del jugador actual
+        let currentPlayerScore = window.__quizQuestions__.players[currentPlayerName];
+        
+        //Mostramos las preguntas correctas e incorrectas
+        window.localStorage.setItem("nuevaPuntuacion", currentPlayerScore.totalCorrectQuestions)
+        document.getElementById("totalCorrectQuestionsP").innerHTML = currentPlayerScore.totalCorrectQuestions;
+        document.getElementById("totalIncorrectQuestionsP").innerHTML = (currentPlayerScore.totalFailQuestions + currentPlayerScore.totalTimeoutQuestions).toString();
+        //addEventListener del boton
+        document.getElementById("button_individualClassifications").addEventListener("click", window.guardarPuntuacion())
+        
         //Terminamos la función
         return true;
 
