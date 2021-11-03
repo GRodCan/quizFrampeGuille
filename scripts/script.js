@@ -329,11 +329,11 @@ function showNextQuestion() {
                     <h3>There are your results:</h3>
                 </div>
                 <div id="totalCorrectQuestions">
-                    <img src="./assets/bien.png" alt="Corrects questions">
+                    <img src="./assets/images/acierto.png" alt="Corrects questions">
                     <p id="totalCorrectQuestionsP"></p>
                 </div>
                 <div id="totalIncorrectQuestions">
-                    <img src="./assets/mal.png" alt="Incorrect questions">
+                    <img src="./assets/images/fallo.png" alt="Incorrect questions">
                     <p id="totalIncorrectQuestionsP"></p>
                </div> 
                 <button id="button_individualClassifications" class="other_buttons" onclick="clasification_print(${currentTotalQuestion})">Continuar</button>
