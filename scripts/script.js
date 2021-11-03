@@ -75,7 +75,7 @@ async function buttonPlay(){
     if(document.getElementById("play")){
       return document.getElementById("start").removeChild(document.getElementById("play"))
     }
-   
+
     if(window.userName !=undefined){
 
         await getUserName()
@@ -296,6 +296,7 @@ const divT=`
     function cuentaAtras() {
         if(tiempo !== null) { return false; }
         tiempo = window.setInterval(function () {
+
             try {
                 if (segundos === 0) { window.__quizQuestions__.timeoutCurrentQuestion(); clearInterval(tiempo); tiempo = null; }
                 document.getElementById("timer").innerHTML = segundos.toString();
