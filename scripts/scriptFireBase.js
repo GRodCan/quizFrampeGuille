@@ -136,7 +136,35 @@ if (document.getElementById("nameChange")){document.getElementById("nameChange")
 //     <script src="./scripts/scriptFireBase.js" type="module"></script>
 
 
-//PARA REGISTRAR PUNTUACIONES
+//OBTENER PUNTUACIONES ACTUALES del firestore
+async function obtener_cal10(){
+  const query_Puntuaciones10 = await query(collection(store, "puntuaciones10"));        
+  const docs_Puntuaciones10 = await getDocs(query_Puntuaciones10);
+  let arr_puntuaciones10=[]
+  docs_Puntuaciones10.forEach(doc => {
+    arr_puntuaciones10.push(doc.data())
+  })
+  window.localStorage.setItem("puntuaciones10", JSON.stringify(arr_puntuaciones10))}
+  
+  async function obtener_cal25(){
+  const query_Puntuaciones25 = await query(collection(store, "puntuaciones25"));        
+  const docs_Puntuaciones25 = await getDocs(query_Puntuaciones25);
+  let arr_puntuaciones25=[]
+  docs_Puntuaciones25.forEach(doc => {
+    arr_puntuaciones25.push(doc.data())
+  })
+  window.localStorage.setItem("puntuaciones25", JSON.stringify(arr_puntuaciones25))}
+  
+  async function obtener_cal50(){
+  const query_Puntuaciones50= await query(collection(store, "puntuaciones50"));        
+  const docs_Puntuaciones50 = await getDocs(query_Puntuaciones50);
+  let arr_puntuaciones50=[]
+  docs_Puntuaciones50.forEach(doc => {
+    arr_puntuaciones50.push(doc.data())
+  })
+  window.localStorage.setItem("puntuaciones50", JSON.stringify(arr_puntuaciones50))}
+
+  //PARA REGISTRAR PUNTUACIONES
 
 // accedemos a datos de usuario
 const guardarPuntuacion=()=>{
@@ -144,50 +172,61 @@ if (window.localStorage.getItem("nuevaPuntuacion")!=null){
 onAuthStateChanged(auth, (user) => {
   
     window.user= user
+    const date= new Date
       //añadimos doc al firestore con el nombre del ususario y la puntuación obtenida.
+      const totalQuestion=window.localStorage.getItem("totalQuestion")
+      if (totalQuestion==10){
+        obtener_cal10()
       addDoc(collection(store, "puntuaciones10"), {
           userName:`${user.displayName}`,
-          score: window.localStorage.getItem("nuevaPuntuacion")
+          score: window.localStorage.getItem("nuevaPuntuacion"),
+          date: `${date.getDate()}-${date.getMonth()+1}-${date.getFullYear()}`
       })
-      window.localStorage.removeItem("nuevaPuntuacion")
+      window.localStorage.removeItem("totalQuestion")}
+      if (totalQuestion==25){
+        obtener_cal25()
+        addDoc(collection(store, "puntuaciones25"), {
+            userName:`${user.displayName}`,
+            score: window.localStorage.getItem("nuevaPuntuacion"),
+            date: `${date.getDate()}-${date.getMonth()+1}-${date.getFullYear()}`
+        })
+        window.localStorage.removeItem("totalQuestion")}
+        if (totalQuestion==50){
+          obtener_cal50()
+          addDoc(collection(store, "puntuaciones50"), {
+              userName:`${user.displayName}`,
+              score: window.localStorage.getItem("nuevaPuntuacion"),
+              date: `${date.getDate()}-${date.getMonth()+1}-${date.getFullYear()}`
+          })
+          window.localStorage.removeItem("totalQuestion")}
+
+      return window.localStorage.removeItem("nuevaPuntuacion")
       
-    console.log(user.displayName)
   
 })}
 };
 window.guardarPuntuacion = guardarPuntuacion
 
 
-window.addEventListener("load",()=>{onAuthStateChanged(auth, (user) => {
-  if (user) {
-    console.log("si hay user")
-    //para que reconozca cuando hay un usuario
-      window.userName= user.displayName
-    //guardamos nombre en el localstore
-      window.localStorage.setItem("userName", user.displayName)
-    } else {
-    // User is signed out
-    console.log("no hay usuario")
-  }
-});
-
-})
 
 
-//OBTENER PUNTUACIONES ACTUALES del firestore
-const query_Puntuaciones = await query(collection(store, "puntuaciones"));
-        
-const docs_Puntuaciones = await getDocs(query_Puntuaciones);
-
-let arr_puntuaciones=[]
-docs_Puntuaciones.forEach(doc => {
-  arr_puntuaciones.push(doc.data())
-})
-window.localStorage.setItem("puntuaciones", JSON.stringify(arr_puntuaciones))
-
-// arr_puntuaciones es un array con todas las puntuaciones guardadas en el FIRESTORE
-
-
-
-
-
+  
+  window.addEventListener("load",()=>{onAuthStateChanged(auth, (user) => {
+    if (user) {
+      console.log("Usuario loggeado:",user.displayName)
+      //para que reconozca cuando hay un usuario
+        window.userName= user.displayName
+      //guardamos nombre en el localstore
+        window.localStorage.setItem("userName", user.displayName)
+      } else {
+      // User is signed out
+      console.log("No hay usuario loggeado")
+    }
+  });
+  
+  })
+  
+  
+  
+  
+  
